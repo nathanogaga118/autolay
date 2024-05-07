@@ -3,7 +3,7 @@ pragma solidity ^0.8.17;
 
 import {Script} from 'forge-std/Script.sol';
 
-import {Greeter} from "src/Greeter.sol";
+import {Greeter} from "src/AutoLayerForwarder.sol";
 
 /// @notice A very simple deployment script
 contract Deploy is Script {
