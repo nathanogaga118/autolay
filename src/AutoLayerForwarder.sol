@@ -2,15 +2,15 @@
 pragma solidity ^0.8.13;
 
 
-import {AggregatorV3Interface} from "../lib/foundry-chainlink-toolkit/src/interfaces/feeds/AggregatorV3Interface.sol";
-import {IERC20} from "../lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
-import {AutoLayerPoints} from "./AutoLayerPoints.sol";
+import {AggregatorV3Interface} from "../src/AggregatorV3Interface.sol";
+import {IERC20} from "../src/IERC20.sol";
+import {AutoLayerPoints} from "./src/AutoLayerPoints.sol";
 
-import "../lib/openzeppelin-contracts/contracts/access/Ownable.sol";
-import "../lib/openzeppelin-contracts/contracts/token/ERC20/utils/SafeERC20.sol";
-import './utils/AutoLayerUtils.sol';
-import "./interfaces/IParaSwap.sol";
-import "./interfaces/IBalancer.sol";
+import "../src/Ownable.sol";
+import "../src/SafeERC20.sol";
+import './src/AutoLayerUtils.sol';
+import "./src/IParaSwap.sol";
+import "./src/IBalancer.sol";
 
 contract AutoLayerForwarder is Ownable {
     using SafeERC20 for IERC20;
