@@ -1,15 +1,8 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import "../src/AutoLayerForwarder.sol";
-import "../src/Ownable.sol"; // Import Ownable.sol if it's not already imported
-import "../src/SafeERC20.sol"; // Import SafeERC20.sol if it's not already imported
-import "../src/AggregatorV3Interface.sol"; // Import AggregatorV3Interface.sol if it's not already imported
-import "../src/IERC20.sol"; // Import IERC20.sol if it's not already imported
-import "../src/IParaSwap.sol"; // Import IParaSwap.sol if it's not already imported
-import "../src/IBalancer.sol"; // Import IBalancer.sol if it's not already imported
-
 import "forge-std/Test.sol";
+import "../AutoLayerForwarder.sol";
 
 contract AutoLayerForwarderTest is Test {
     AutoLayerForwarder forwarder;
@@ -20,7 +13,7 @@ contract AutoLayerForwarderTest is Test {
         forwarder = new AutoLayerForwarder(
             address(0), // autoLayerPointsAddress
             address(0), // routerAddress
-            address(0), // ETHUSDPriceFeedAddress
+            address(0), // ETHUSDPriceFeedAdress
             address(0), // balancerVaultAddress
             address(0)  // tokenProxyAddress
         );
@@ -31,7 +24,7 @@ contract AutoLayerForwarderTest is Test {
         address[] memory tokenAddresses = new address[](1);
         tokenAddresses[0] = address(0);
 
-        vm.expectRevert("Zero address not allowed");
+        vm.expectRevert("Invalid token address");
         forwarder.whitelistTokens(tokenAddresses);
     }
 
@@ -41,7 +34,15 @@ contract AutoLayerForwarderTest is Test {
 
         vm.prank(owner);
         forwarder.whitelistTokens(tokenAddresses);
-
         assertTrue(forwarder.isTokenWhitelisted(address(1)));
+    }
+
+    function testWhitelistNonOwner() public {
+        address[] memory tokenAddresses = new address[](1);
+        tokenAddresses[0] = address(1);
+
+        vm.prank(address(0xBEEF));
+        vm.expectRevert("Ownable: caller is not the owner");
+        forwarder.whitelistTokens(tokenAddresses);
     }
 }
